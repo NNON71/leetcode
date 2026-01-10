@@ -1,0 +1,31 @@
+class Solution(object):
+    def minimumDeleteSum(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: int
+        """
+        n, m = len(s1), len(s2)
+        dp = [[0] * (m + 1) for _ in range(n + 1)]
+
+        for i in range(n):
+            for j in range(m):
+                if s1[i] == s2[j]:
+                    dp[i + 1][j + 1] = dp[i][j] + ord(s1[i])
+                else:
+                    dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j])
+            
+        total_ascii = sum(ord(c) for c in s1) + sum(ord(c) for c in s2)
+        return total_ascii - 2 * dp[n][m]
+        
+"""
+712. Minimum ASCII Delete Sum for Two Strings
+
+Given two strings s1 and s2, return the lowest ASCII sum of deleted characters to make two strings equal.
+
+Input: s1 = "sea", s2 = "eat"
+Output: 231
+
+Input: s1 = "delete", s2 = "leet"
+Output: 403
+"""        
